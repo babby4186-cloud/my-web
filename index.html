@@ -1,1 +1,292 @@
-print("hello wooorld")
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Special Date 💗</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Trebuchet MS', sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffd6e7, #ffb6d5, #ffe6f0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #d63384;
+}
+
+/* Floating hearts */
+
+.heart {
+    position: absolute;
+    bottom: -50px;
+    animation: float 8s linear infinite;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    20% { opacity: 0.7; }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Main card */
+
+.card {
+    width: 90%;
+    max-width: 370px;
+    padding: 35px 22px;
+    text-align: center;
+    background: rgba(255,255,255,0.75);
+    border: 3px solid white;
+    border-radius: 30px;
+    box-shadow: 0 12px 35px rgba(255,80,150,0.2);
+    z-index: 2;
+    animation: appear 1s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.kitty {
+    font-size: 65px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 14px;
+    margin-bottom: 25px;
+    color: #e36a9b;
+}
+
+/* Date selectors */
+
+.date-inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+select {
+    padding: 13px;
+    width: 95px;
+    border: 2px solid #ffb0d0;
+    border-radius: 15px;
+    background: #fff0f6;
+    color: #d63384;
+    font-size: 18px;
+    font-weight: bold;
+    outline: none;
+}
+
+.slash {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #ff83b5, #ff4f96);
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255,70,140,0.3);
+    transition: 0.3s;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+#message {
+    margin-top: 18px;
+    font-weight: bold;
+    min-height: 20px;
+}
+
+/* Second page */
+
+#secondPage {
+    display: none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="hearts"></div>
+
+<!-- FIRST PAGE -->
+
+<div class="card" id="firstPage">
+
+    <div class="kitty">🎀🐱💗</div>
+
+    <h1>Our Special Date</h1>
+
+    <p>
+        Hey babyyy! 💕<br>
+        Do you remember our favourite date?
+    </p>
+
+    <h3 style="margin-bottom:15px;">Enter our fav date 💌</h3>
+
+    <div class="date-inputs">
+
+        <select id="day">
+            <option value="">Day</option>
+        </select>
+
+        <span class="slash">/</span>
+
+        <select id="month">
+            <option value="">Month</option>
+        </select>
+
+    </div>
+
+    <button onclick="checkDate()">ENTER 💗</button>
+
+    <div id="message"></div>
+
+    <div style="margin-top:25px;font-size:25px;">
+        🎀 🌷 💕 🌸
+    </div>
+
+</div>
+
+<!-- SECOND PAGE -->
+
+<div class="card" id="secondPage">
+
+    <div class="kitty">🐱💗🎀</div>
+
+    <h1>Hello World!</h1>
+
+    <p>
+        You remembered our special date! 💕
+    </p>
+
+    <div style="font-size:45px;">
+        💗🌷💗🌷💗
+    </div>
+
+    <p style="margin-top:20px;">
+        This is just the beginning of our little story.
+    </p>
+
+</div>
+
+<script>
+
+// Populate days
+const day = document.getElementById("day");
+for(let i = 1; i <= 31; i++) {
+    let option = document.createElement("option");
+    option.value = i;
+    option.textContent = String(i).padStart(2, "0");
+    day.appendChild(option);
+}
+
+// Populate months
+const month = document.getElementById("month");
+
+const months = [
+    "January", "February", "March",
+    "April", "May", "June",
+    "July", "August", "September",
+    "October", "November", "December"
+];
+
+months.forEach((name, index) => {
+    let option = document.createElement("option");
+    option.value = index + 1;
+    option.textContent = String(index + 1).padStart(2, "0");
+    month.appendChild(option);
+});
+
+// Check date
+function checkDate() {
+
+    let d = Number(day.value);
+    let m = Number(month.value);
+
+    const message = document.getElementById("message");
+
+    if(d === 29 && m === 9) {
+
+        message.innerHTML = "YAYYYY!! YOU REMEMBERED!! 💗";
+
+        setTimeout(() => {
+            document.getElementById("firstPage").style.display = "none";
+            document.getElementById("secondPage").style.display = "block";
+        }, 1200);
+
+    } else {
+
+        message.innerHTML = "Wrong date babyyy! Try again 🥺💔";
+
+    }
+}
+
+// Floating hearts generator
+
+const heartContainer = document.getElementById("hearts");
+
+const symbols = ["💗", "💕", "💖", "🎀", "🌸", "💘"];
+
+for(let i = 0; i < 25; i++) {
+
+    let heart = document.createElement("div");
+
+    heart.className = "heart";
+    heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (15 + Math.random() * 25) + "px";
+    heart.style.animationDuration = (5 + Math.random() * 8) + "s";
+    heart.style.animationDelay = Math.random() * 8 + "s";
+
+    heartContainer.appendChild(heart);
+}
+
+</script>
+
+</body>
+</html>
