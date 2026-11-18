@@ -122,7 +122,7 @@ button {
     color: #d63384;
 }
 
-/* SCENE 1 HEARTS */
+/* FLOATING HEARTS */
 
 .heart {
     position: absolute;
@@ -132,7 +132,10 @@ button {
 }
 
 @keyframes float {
-    0% { transform: translateY(0); opacity: 0; }
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
     20% { opacity: 0.7; }
     100% {
         transform: translateY(-110vh) rotate(360deg);
@@ -251,6 +254,13 @@ button {
 </head>
 
 <body>
+
+<!-- BACKGROUND MUSIC -->
+<!-- Keep this outside all scenes so it never disappears -->
+
+<audio id="loveSong" loop preload="auto">
+    <source src="UNETHICAL%20-%20Faouzia.mp3" type="audio/mpeg">
+</audio>
 
 <!-- SCENE 1 -->
 
@@ -374,9 +384,9 @@ function showScene(id) {
 }
 
 
-// CHECK DATE
+// CHECK DATE + START MUSIC
 
-function checkDate() {
+async function checkDate() {
 
     let d = Number(day.value);
     let m = Number(month.value);
@@ -387,15 +397,34 @@ function checkDate() {
 
         message.innerHTML = "YAYYYY!! YOU REMEMBERED!! 💗";
 
-        setTimeout(() => {
+        setTimeout(async () => {
+
+            // Show scene 2
             showScene("scene2");
+
+            // START MUSIC
+            const song = document.getElementById("loveSong");
+
+            song.volume = 0.7;
+
+            try {
+                await song.play();
+            } catch(error) {
+                console.log("Music playback failed:", error);
+                message.innerHTML =
+                    "Tap to play the music, my love 💗";
+            }
+
+            // Start animations
             startEmojiRain();
             startMessages();
+
         }, 1200);
 
     } else {
 
-        message.innerHTML = "Wrong date babyyy! Try again 🥺💔";
+        message.innerHTML =
+            "Wrong date babyyy! Try again 🥺💔";
 
     }
 }
@@ -405,18 +434,29 @@ function checkDate() {
 
 const heartContainer = document.getElementById("hearts");
 
-const symbols = ["💗", "💕", "💖", "🎀", "🌸", "💘", "💋"];
+const symbols = [
+    "💗", "💕", "💖", "🎀", "🌸", "💘", "💋"
+];
 
 for(let i = 0; i < 25; i++) {
 
     let heart = document.createElement("div");
 
     heart.className = "heart";
-    heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+    heart.textContent =
+        symbols[Math.floor(Math.random() * symbols.length)];
+
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (15 + Math.random() * 25) + "px";
-    heart.style.animationDuration = (5 + Math.random() * 8) + "s";
-    heart.style.animationDelay = Math.random() * 8 + "s";
+
+    heart.style.fontSize =
+        (15 + Math.random() * 25) + "px";
+
+    heart.style.animationDuration =
+        (5 + Math.random() * 8) + "s";
+
+    heart.style.animationDelay =
+        Math.random() * 8 + "s";
 
     heartContainer.appendChild(heart);
 }
@@ -439,10 +479,17 @@ function createLove() {
     const love = document.createElement("div");
 
     love.className = "love";
-    love.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+    love.innerText =
+        emojis[Math.floor(Math.random() * emojis.length)];
+
     love.style.left = Math.random() * 100 + "vw";
-    love.style.fontSize = (15 + Math.random() * 25) + "px";
-    love.style.animationDuration = (4 + Math.random() * 6) + "s";
+
+    love.style.fontSize =
+        (15 + Math.random() * 25) + "px";
+
+    love.style.animationDuration =
+        (4 + Math.random() * 6) + "s";
 
     rain.appendChild(love);
 
@@ -454,6 +501,7 @@ function startEmojiRain() {
     if(rainInterval) return;
 
     createLove();
+
     rainInterval = setInterval(createLove, 250);
 }
 
@@ -491,11 +539,11 @@ async function startMessages() {
         current.classList.remove("show");
         current.classList.add("hide");
 
-        // Wait for disappearance before next
+        // Wait before next message
         await wait(800);
     }
 
-    // Show continue button after all messages
+    // Show continue button
     button.classList.add("show");
 }
 
@@ -503,7 +551,10 @@ async function startMessages() {
 // SCENE 3
 
 function goToScene3() {
+
+    // Music keeps playing because audio is outside the scenes
     showScene("scene3");
+
 }
 
 </script>
