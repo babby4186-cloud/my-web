@@ -18,35 +18,32 @@ body {
     min-height: 100vh;
     overflow: hidden;
     background: linear-gradient(135deg, #ffd6e7, #ffb6d5, #ffe6f0);
+}
+
+/* SCENE SYSTEM */
+
+.scene {
+    position: fixed;
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #d63384;
+    text-align: center;
+    overflow: hidden;
+    transition: opacity 1.2s ease;
 }
 
-/* Floating hearts */
-
-.heart {
-    position: absolute;
-    bottom: -50px;
-    animation: float 8s linear infinite;
-    opacity: 0.6;
+.hidden {
+    opacity: 0;
     pointer-events: none;
 }
 
-@keyframes float {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0;
-    }
-    20% { opacity: 0.7; }
-    100% {
-        transform: translateY(-110vh) rotate(360deg);
-        opacity: 0;
-    }
-}
+/* SCENE 1 */
 
-/* Main card */
+#scene1 {
+    background: linear-gradient(135deg, #ffd6e7, #ffb6d5, #ffe6f0);
+    z-index: 3;
+}
 
 .card {
     width: 90%;
@@ -57,8 +54,8 @@ body {
     border: 3px solid white;
     border-radius: 30px;
     box-shadow: 0 12px 35px rgba(255,80,150,0.2);
-    z-index: 2;
     animation: appear 1s ease;
+    z-index: 2;
 }
 
 @keyframes appear {
@@ -80,6 +77,7 @@ body {
 h1 {
     font-size: 25px;
     margin-bottom: 10px;
+    color: #d63384;
 }
 
 p {
@@ -87,8 +85,6 @@ p {
     margin-bottom: 25px;
     color: #e36a9b;
 }
-
-/* Date selectors */
 
 .date-inputs {
     display: flex;
@@ -113,6 +109,7 @@ select {
 .slash {
     font-size: 25px;
     font-weight: bold;
+    color: #d63384;
 }
 
 button {
@@ -126,7 +123,6 @@ button {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 5px 15px rgba(255,70,140,0.3);
-    transition: 0.3s;
 }
 
 button:active {
@@ -137,12 +133,168 @@ button:active {
     margin-top: 18px;
     font-weight: bold;
     min-height: 20px;
+    color: #d63384;
 }
 
-/* Second page */
+/* FLOATING SCENE 1 HEARTS */
 
-#secondPage {
-    display: none;
+.heart {
+    position: absolute;
+    bottom: -50px;
+    animation: float 8s linear infinite;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    20% { opacity: 0.7; }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* SCENE 2 */
+
+#scene2 {
+    z-index: 2;
+    background: #ffd1e3;
+    animation: sceneDarken 3s forwards;
+}
+
+@keyframes sceneDarken {
+    to {
+        background: #f5a6c8;
+    }
+}
+
+#emojiRain {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.love {
+    position: absolute;
+    top: -60px;
+    animation: fall linear forwards;
+    user-select: none;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-60px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.8;
+    }
+}
+
+.content {
+    z-index: 1;
+    padding: 20px;
+    width: 100%;
+}
+
+.messages {
+    position: relative;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.animated-text {
+    position: absolute;
+    width: 100%;
+    font-size: 27px;
+    font-weight: bold;
+    color: #ffe1ef;
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    text-shadow: 0 0 12px #fff, 0 0 22px #ffb6d5;
+    animation: showText 3s ease forwards;
+}
+
+.animated-text:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.animated-text:nth-child(2) {
+    animation-delay: 3.5s;
+}
+
+.animated-text:nth-child(3) {
+    animation-delay: 6.5s;
+}
+
+@keyframes showText {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.8);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(0) scale(1.08);
+    }
+    30%, 75% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.9);
+    }
+}
+
+.continue-button {
+    margin-top: 40px;
+    width: auto;
+    padding: 15px 35px;
+    border: 2px solid white;
+    border-radius: 30px;
+    background: #f78fba;
+    color: white;
+    font-size: 17px;
+    box-shadow: 0 0 20px #fff;
+    opacity: 0;
+    animation: buttonShow 1s 9.5s forwards;
+}
+
+@keyframes buttonShow {
+    to {
+        opacity: 1;
+    }
+}
+
+/* SCENE 3 */
+
+#scene3 {
+    z-index: 1;
+    background: #f8b9d2;
+}
+
+#hello {
+    color: #ffe1ef;
+    font-size: 40px;
+    text-shadow: 0 0 15px white;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    to {
+        text-shadow: 0 0 25px white, 0 0 45px #ffb6d5;
+    }
 }
 
 </style>
@@ -150,101 +302,149 @@ button:active {
 
 <body>
 
-<div id="hearts"></div>
+<!-- SCENE 1: DATE SELECTOR -->
 
-<!-- FIRST PAGE -->
+<div class="scene" id="scene1">
 
-<div class="card" id="firstPage">
+    <div id="hearts"></div>
 
-    <div class="kitty">🎀🐱💗</div>
+    <div class="card">
 
-    <h1>Our Special Date</h1>
+        <div class="kitty">🎀🐱💗</div>
 
-    <p>
-        Hey babyyy! 💕<br>
-        Do you remember our favourite date?
-    </p>
+        <h1>Our Special Date</h1>
 
-    <h3 style="margin-bottom:15px;">Enter our fav date 💌</h3>
+        <p>
+            Hey babyyy! 💕<br>
+            Do you remember our favourite date?
+        </p>
 
-    <div class="date-inputs">
+        <h3 style="margin-bottom:15px;color:#d63384;">
+            Enter our fav date 💌
+        </h3>
 
-        <select id="day">
-            <option value="">Day</option>
-        </select>
+        <div class="date-inputs">
 
-        <span class="slash">/</span>
+            <select id="day">
+                <option value="">Day</option>
+            </select>
 
-        <select id="month">
-            <option value="">Month</option>
-        </select>
+            <span class="slash">/</span>
 
-    </div>
+            <select id="month">
+                <option value="">Month</option>
+            </select>
 
-    <button onclick="checkDate()">ENTER 💗</button>
+        </div>
 
-    <div id="message"></div>
+        <button onclick="checkDate()">ENTER 💗</button>
 
-    <div style="margin-top:25px;font-size:25px;">
-        For My Love🥰
+        <div id="message"></div>
+
+        <div style="margin-top:25px;font-size:25px;">
+            For My Love🥰
+        </div>
+
     </div>
 
 </div>
 
-<!-- SECOND PAGE -->
 
-<div class="card" id="secondPage">
+<!-- SCENE 2: LOVE EMOJI RAIN -->
 
-    <div class="kitty">🐱💗🎀</div>
+<div class="scene hidden" id="scene2">
 
-    <h1>Hello World!</h1>
+    <div id="emojiRain"></div>
 
-    <p>
-        You remembered our special date! 💕
-    </p>
+    <div class="content">
 
-    <div style="font-size:45px;">
-        💗🌷💗🌷💗
+        <div class="messages">
+
+            <div class="animated-text">
+                heyyy babyyy 💗
+            </div>
+
+            <div class="animated-text">
+                i hope u will love thiss 🥺
+            </div>
+
+            <div class="animated-text">
+                i love uuu soo much 💞
+            </div>
+
+        </div>
+
+        <button class="continue-button" onclick="goToScene3()">
+            Continue, my love 💗 →
+        </button>
+
     </div>
 
-    <p style="margin-top:20px;">
-        This is just the beginning of our little story.
-    </p>
+</div>
+
+
+<!-- SCENE 3: HELLO WORLD -->
+
+<div class="scene hidden" id="scene3">
+
+    <h1 id="hello">hello world ♡</h1>
 
 </div>
+
 
 <script>
 
-// Populate days
+// POPULATE DAYS
+
 const day = document.getElementById("day");
+
 for(let i = 1; i <= 31; i++) {
+
     let option = document.createElement("option");
+
     option.value = i;
+
     option.textContent = String(i).padStart(2, "0");
+
     day.appendChild(option);
+
 }
 
-// Populate months
+
+// POPULATE MONTHS
+
 const month = document.getElementById("month");
 
-const months = [
-    "January", "February", "March",
-    "April", "May", "June",
-    "July", "August", "September",
-    "October", "November", "December"
-];
+for(let i = 1; i <= 12; i++) {
 
-months.forEach((name, index) => {
     let option = document.createElement("option");
-    option.value = index + 1;
-    option.textContent = String(index + 1).padStart(2, "0");
-    month.appendChild(option);
-});
 
-// Check date
+    option.value = i;
+
+    option.textContent = String(i).padStart(2, "0");
+
+    month.appendChild(option);
+
+}
+
+
+// SCENE NAVIGATION
+
+function showScene(from, to) {
+
+    document.getElementById(from).classList.add("hidden");
+
+    document.getElementById(to).classList.remove("hidden");
+
+}
+
+
+// CHECK DATE
+
 function checkDate() {
 
     let d = Number(day.value);
+
     let m = Number(month.value);
 
     const message = document.getElementById("message");
@@ -254,8 +454,11 @@ function checkDate() {
         message.innerHTML = "YAYYYY!! YOU REMEMBERED!! 💗";
 
         setTimeout(() => {
-            document.getElementById("firstPage").style.display = "none";
-            document.getElementById("secondPage").style.display = "block";
+
+            showScene("scene1", "scene2");
+
+            startEmojiRain();
+
         }, 1200);
 
     } else {
@@ -263,27 +466,96 @@ function checkDate() {
         message.innerHTML = "Wrong date babyyy! Try again 🥺💔";
 
     }
+
 }
 
-// Floating hearts generator
+
+// SCENE 1 FLOATING HEARTS
 
 const heartContainer = document.getElementById("hearts");
 
-const symbols = ["💗", "💕", "💖", "🎀", "🌸", "💘", "🫀", "💋", "👅"];
+const symbols = [
+    "💗", "💕", "💖", "🎀",
+    "🌸", "💘", "🫀", "💋"
+];
 
 for(let i = 0; i < 25; i++) {
 
     let heart = document.createElement("div");
 
     heart.className = "heart";
-    heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+    heart.textContent =
+        symbols[Math.floor(Math.random() * symbols.length)];
 
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (15 + Math.random() * 25) + "px";
-    heart.style.animationDuration = (5 + Math.random() * 8) + "s";
-    heart.style.animationDelay = Math.random() * 8 + "s";
+
+    heart.style.fontSize =
+        (15 + Math.random() * 25) + "px";
+
+    heart.style.animationDuration =
+        (5 + Math.random() * 8) + "s";
+
+    heart.style.animationDelay =
+        Math.random() * 8 + "s";
 
     heartContainer.appendChild(heart);
+
+}
+
+
+// SCENE 2 FALLING LOVE EMOJIS
+
+const rain = document.getElementById("emojiRain");
+
+const emojis = [
+    "💗", "💕", "💖", "💘",
+    "❤️", "🩷", "💞", "💓",
+    "💝", "🥰", "🌸", "💟"
+];
+
+let rainInterval = null;
+
+function createLove() {
+
+    const love = document.createElement("div");
+
+    love.className = "love";
+
+    love.innerText =
+        emojis[Math.floor(Math.random() * emojis.length)];
+
+    love.style.left = Math.random() * 100 + "vw";
+
+    love.style.fontSize =
+        (15 + Math.random() * 25) + "px";
+
+    love.style.animationDuration =
+        (4 + Math.random() * 6) + "s";
+
+    rain.appendChild(love);
+
+    setTimeout(() => love.remove(), 11000);
+
+}
+
+function startEmojiRain() {
+
+    if(rainInterval) return;
+
+    createLove();
+
+    rainInterval = setInterval(createLove, 250);
+
+}
+
+
+// GO TO SCENE 3
+
+function goToScene3() {
+
+    showScene("scene2", "scene3");
+
 }
 
 </script>
