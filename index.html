@@ -4,289 +4,464 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Special Date 💗</title>
+<title>For My Baby 💗</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* {box-sizing:border-box}
 
 body {
-    font-family: 'Trebuchet MS', sans-serif;
-    min-height: 100vh;
-    overflow: hidden;
-    background: linear-gradient(135deg, #ffd6e7, #ffb6d5, #ffe6f0);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #d63384;
+  margin:0;
+  font-family:Georgia,serif;
+  background:#ffe4ef;
+  color:#d94d85;
+  overflow:hidden;
 }
 
-/* Floating hearts */
+.scene {
+  display:none;
+  width:100%;
+  height:100dvh;
+  min-height:100vh;
+  text-align:center;
+  padding:25px 20px;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+
+.scene.active {display:flex}
+
+h1 {font-size:30px}
+p {font-size:17px;line-height:1.7}
+
+button {
+  border:0;
+  border-radius:25px;
+  padding:14px 25px;
+  background:#ff78ad;
+  color:white;
+  font-size:16px;
+  margin:10px;
+  box-shadow:0 5px 12px #e98aaf66;
+}
+
+button:active {transform:scale(.95)}
+
+.card {
+  background:#fff7fb;
+  border:2px solid white;
+  border-radius:25px;
+  padding:25px 20px;
+  width:100%;
+  max-width:390px;
+  box-shadow:0 8px 30px #e99ab655;
+  position:relative;
+  z-index:2;
+}
 
 .heart {
-    position: absolute;
-    bottom: -50px;
-    animation: float 8s linear infinite;
-    opacity: 0.6;
-    pointer-events: none;
+  position:absolute;
+  color:#ff79ad;
+  animation:float 5s infinite ease-in-out;
+  pointer-events:none;
 }
 
 @keyframes float {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0;
-    }
-    20% { opacity: 0.7; }
-    100% {
-        transform: translateY(-110vh) rotate(360deg);
-        opacity: 0;
-    }
+  0%,100% {transform:translateY(0) rotate(0)}
+  50% {transform:translateY(-35px) rotate(20deg)}
 }
 
-/* Main card */
-
-.card {
-    width: 90%;
-    max-width: 370px;
-    padding: 35px 22px;
-    text-align: center;
-    background: rgba(255,255,255,0.75);
-    border: 3px solid white;
-    border-radius: 30px;
-    box-shadow: 0 12px 35px rgba(255,80,150,0.2);
-    z-index: 2;
-    animation: appear 1s ease;
+input[type=range] {
+  width:100%;
+  accent-color:#ff69a4;
 }
 
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+.date-number {
+  font-size:55px;
+  font-weight:bold;
+  color:#ed6a9e;
 }
 
-.kitty {
-    font-size: 65px;
-    margin-bottom: 10px;
+#scene2 {
+  background:#190b19;
+  color:#ff9ac5;
 }
 
-h1 {
-    font-size: 25px;
-    margin-bottom: 10px;
+#ascii {
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  opacity:.35;
+  color:#ff75ad;
+  font-family:monospace;
+  font-size:12px;
+  line-height:17px;
+  word-break:break-all;
+  pointer-events:none;
 }
 
-p {
-    font-size: 14px;
-    margin-bottom: 25px;
-    color: #e36a9b;
+.message {
+  position:relative;
+  z-index:2;
+  background:#210e20dd;
+  padding:25px;
+  border:1px solid #ff91c5;
+  border-radius:25px;
+  box-shadow:0 0 35px #ff55a855;
+  max-width:390px;
 }
 
-/* Date selectors */
-
-.date-inputs {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 25px;
+#scene3 {
+  background:linear-gradient(140deg,#ffe1ee,#fff1f7,#ffc6df);
 }
 
-select {
-    padding: 13px;
-    width: 95px;
-    border: 2px solid #ffb0d0;
-    border-radius: 15px;
-    background: #fff0f6;
-    color: #d63384;
-    font-size: 18px;
-    font-weight: bold;
-    outline: none;
+.choice {
+  display:block;
+  width:100%;
+  margin:12px 0;
+  background:#fff;
+  color:#d94d85;
+  border:1px solid #ffc0d9;
 }
 
-.slash {
-    font-size: 25px;
-    font-weight: bold;
+#letterView {
+  display:none;
+  position:relative;
+  z-index:4;
+  background:#fff5e9;
+  color:#9c5971;
+  padding:25px;
+  border-radius:15px;
+  max-width:390px;
+  max-height:70vh;
+  overflow:auto;
+  box-shadow:0 5px 30px #d87b9a66;
+  line-height:1.8;
 }
 
-button {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 20px;
-    background: linear-gradient(90deg, #ff83b5, #ff4f96);
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(255,70,140,0.3);
-    transition: 0.3s;
+#memoryView {
+  display:none;
+  z-index:4;
+  width:100%;
+  max-width:390px;
+  background:white;
+  padding:15px;
+  border-radius:20px;
 }
 
-button:active {
-    transform: scale(0.95);
+#memoryImage {
+  width:100%;
+  max-height:55vh;
+  object-fit:contain;
+  border-radius:12px;
 }
 
-#message {
-    margin-top: 18px;
-    font-weight: bold;
-    min-height: 20px;
+#scene4 {
+  background:black;
+  color:#ff77b5;
 }
 
-/* Second page */
-
-#secondPage {
-    display: none;
+#scene4 h1 {
+  text-shadow:0 0 15px #ff4d9b;
+  animation:glow 2s infinite alternate;
 }
 
+@keyframes glow {
+  from {text-shadow:0 0 8px #ff4d9b}
+  to {text-shadow:0 0 30px #ff4d9b,0 0 50px #ff4d9b}
+}
+
+.small {font-size:13px;color:#d989a9}
 </style>
 </head>
 
 <body>
 
-<div id="hearts"></div>
+<!-- MUSIC: starts in scene 2 and stays playing -->
+<audio id="music" loop preload="auto">
+  <source src="unethical-faouzia.mp3" type="audio/mpeg">
+</audio>
 
-<!-- FIRST PAGE -->
+<!-- SCENE 1 -->
+<section class="scene active" id="scene1">
 
-<div class="card" id="firstPage">
+<div class="heart" style="top:10%;left:10%;font-size:35px">♥</div>
+<div class="heart" style="top:20%;right:12%;font-size:25px">🎀</div>
+<div class="heart" style="bottom:15%;left:15%;font-size:30px">♡</div>
+<div class="heart" style="bottom:20%;right:10%;font-size:35px">♥</div>
 
-    <div class="kitty">🎀🐱💗</div>
+<div class="card">
+  <div style="font-size:65px">🎀</div>
+  <h1>Hiii babyyy! 💗</h1>
+  <p>I have a little surprise for youuu.</p>
+  <p>But first, can you remember our special date?</p>
 
-    <h1>Our Special Date</h1>
+  <div style="margin-top:20px">
+    <div class="date-number" id="dayText">01</div>
+    <input type="range" id="day" min="1" max="31" value="1">
+    <p>DAY</p>
 
-    <p>
-        Hey babyyy! 💕<br>
-        Do you remember our favourite date?
-    </p>
+    <div class="date-number" id="monthText">01</div>
+    <input type="range" id="month" min="1" max="12" value="1">
+    <p>MONTH</p>
+  </div>
 
-    <h3 style="margin-bottom:15px;">Enter our fav date 💌</h3>
+  <button onclick="checkDate()">Unlock my surprise 💗</button>
+  <p class="small" id="dateMessage">I wonder if you remember hehe ♡</p>
+</div>
+</section>
 
-    <div class="date-inputs">
+<!-- SCENE 2 -->
+<section class="scene" id="scene2">
+<div id="ascii"></div>
 
-        <select id="day">
-            <option value="">Day</option>
-        </select>
+<div class="message">
+  <div style="font-size:55px">💗</div>
+  <h1>YEP!</h1>
+  <h2>THAT'S MY BABY!!</h2>
+  <p>I love you sooooo much.</p>
+  <p>I made this especially for uu 🎀</p>
+  <p>Every little thing here is made with love.</p>
+  <button onclick="goScene(3)">Continue baby →</button>
+</div>
+</section>
 
-        <span class="slash">/</span>
+<!-- SCENE 3 -->
+<section class="scene" id="scene3">
 
-        <select id="month">
-            <option value="">Month</option>
-        </select>
+<h1>Choose your surprise 💌</h1>
+<p>I've prepared three little things for you.</p>
 
-    </div>
+<div class="card" id="menu">
+  <button class="choice" onclick="showLetter()">
+    💌 A letter for you
+  </button>
 
-    <button onclick="checkDate()">ENTER 💗</button>
+  <button class="choice" onclick="showMemories()">
+    📸 Our memories
+  </button>
 
-    <div id="message"></div>
+  <button class="choice" onclick="downloadMoments()">
+    🎀 My favourite moments
+  </button>
 
-    <div style="margin-top:25px;font-size:25px;">
-        🎀 🌷 💕 🌸
-    </div>
-
+  <p class="small">Take your time, baby ♡</p>
 </div>
 
-<!-- SECOND PAGE -->
+<!-- LETTER -->
+<div id="letterView">
+  <div style="font-size:40px">💌</div>
+  <h2>To my favourite girl</h2>
 
-<div class="card" id="secondPage">
+  <p>
+  My babyyy,
 
-    <div class="kitty">🐱💗🎀</div>
+  I don't think you understand how special you are to me.
+  You make ordinary moments feel beautiful, and even the
+  smallest things about you make me smile.
 
-    <h1>Hello World!</h1>
+  I want you to know that no matter what happens,
+  I would always want to hold you close, make you feel
+  safe, and remind you how much you mean to me.
 
-    <p>
-        You remembered our special date! 💕
-    </p>
+  If I could, I would hold you for as long as possible
+  and never let you forget how loved you are.
 
-    <div style="font-size:45px;">
-        💗🌷💗🌷💗
-    </div>
+  Thank you for being you.
+  Thank you for making my world a little more beautiful.
 
-    <p style="margin-top:20px;">
-        This is just the beginning of our little story.
-    </p>
+  I love you so much, baby. Always. ❤️
+  </p>
 
+  <p>Forever your person ♡</p>
+  <button onclick="backMenu()">Go back</button>
 </div>
+
+<!-- MEMORIES -->
+<div id="memoryView">
+  <h2>Our little memories 📸</h2>
+
+  <input type="file" id="photos"
+    accept="image/*" multiple
+    onchange="loadPhotos(event)">
+
+  <p class="small">Choose your photos from your phone.</p>
+
+  <img id="memoryImage" alt="Our memory">
+
+  <p id="photoCounter">No photos yet ♡</p>
+
+  <button onclick="previousPhoto()">←</button>
+  <button onclick="nextPhoto()">→</button>
+  <button onclick="backMenu()">Back</button>
+</div>
+
+<button onclick="goScene(4)" style="margin-top:20px">
+  Finish our little journey 💗
+</button>
+
+</section>
+
+<!-- SCENE 4 -->
+<section class="scene" id="scene4">
+  <div style="font-size:55px">🎀</div>
+  <h1>YEP SORRY BABY 😭</h1>
+  <p>I didn't do much coz I got limited 😭</p>
+  <p>But I hope you smiled.</p>
+  <p style="font-size:35px">I LOVE YOU ❤️</p>
+</section>
 
 <script>
 
-// Populate days
+// DATE SLIDERS
 const day = document.getElementById("day");
-for(let i = 1; i <= 31; i++) {
-    let option = document.createElement("option");
-    option.value = i;
-    option.textContent = String(i).padStart(2, "0");
-    day.appendChild(option);
-}
-
-// Populate months
 const month = document.getElementById("month");
 
-const months = [
-    "January", "February", "March",
-    "April", "May", "June",
-    "July", "August", "September",
-    "October", "November", "December"
-];
+day.oninput = () => {
+  document.getElementById("dayText").textContent =
+    String(day.value).padStart(2,"0");
+};
 
-months.forEach((name, index) => {
-    let option = document.createElement("option");
-    option.value = index + 1;
-    option.textContent = String(index + 1).padStart(2, "0");
-    month.appendChild(option);
-});
+month.oninput = () => {
+  document.getElementById("monthText").textContent =
+    String(month.value).padStart(2,"0");
+};
 
-// Check date
-function checkDate() {
+// SCENE SWITCHING
+function goScene(number) {
+  document.querySelectorAll(".scene").forEach(s => {
+    s.classList.remove("active");
+  });
 
-    let d = Number(day.value);
-    let m = Number(month.value);
-
-    const message = document.getElementById("message");
-
-    if(d === 29 && m === 9) {
-
-        message.innerHTML = "YAYYYY!! YOU REMEMBERED!! 💗";
-
-        setTimeout(() => {
-            document.getElementById("firstPage").style.display = "none";
-            document.getElementById("secondPage").style.display = "block";
-        }, 1200);
-
-    } else {
-
-        message.innerHTML = "Wrong date babyyy! Try again 🥺💔";
-
-    }
+  document.getElementById("scene" + number).classList.add("active");
 }
 
-// Floating hearts generator
+// DATE CHECK
+async function checkDate() {
+  if (Number(day.value) === 29 &&
+      Number(month.value) === 9) {
 
-const heartContainer = document.getElementById("hearts");
+    const music = document.getElementById("music");
 
-const symbols = ["💗", "💕", "💖", "🎀", "🌸", "💘"];
+    try {
+      await music.play();
+    } catch(e) {
+      document.getElementById("dateMessage").textContent =
+        "Tap again to start our music ♡";
+      return;
+    }
 
-for(let i = 0; i < 25; i++) {
+    goScene(2);
 
-    let heart = document.createElement("div");
+  } else {
+    document.getElementById("dateMessage").textContent =
+      "Nooo baby try again 😭💗";
+  }
+}
 
-    heart.className = "heart";
-    heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+// ASCII ANIMATION
+const ascii = document.getElementById("ascii");
 
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (15 + Math.random() * 25) + "px";
-    heart.style.animationDuration = (5 + Math.random() * 8) + "s";
-    heart.style.animationDelay = Math.random() * 8 + "s";
+const symbols = "01♥♡*+{}[]<>/\\";
+let animation = "";
 
-    heartContainer.appendChild(heart);
+for(let i=0;i<1800;i++) {
+  animation += symbols[Math.floor(Math.random()*symbols.length)];
+}
+
+ascii.textContent = animation;
+
+setInterval(() => {
+  let chars = ascii.textContent.split("");
+  for(let i=0;i<80;i++) {
+    let index = Math.floor(Math.random()*chars.length);
+    chars[index] = symbols[Math.floor(Math.random()*symbols.length)];
+  }
+  ascii.textContent = chars.join("");
+},100);
+
+// LETTER
+function showLetter() {
+  document.getElementById("menu").style.display="none";
+  document.getElementById("letterView").style.display="block";
+}
+
+function backMenu() {
+  document.getElementById("menu").style.display="block";
+  document.getElementById("letterView").style.display="none";
+  document.getElementById("memoryView").style.display="none";
+}
+
+// MEMORIES SLIDESHOW
+let photos = [];
+let currentPhoto = 0;
+
+function showMemories() {
+  document.getElementById("menu").style.display="none";
+  document.getElementById("memoryView").style.display="block";
+}
+
+function loadPhotos(event) {
+  photos.forEach(p => URL.revokeObjectURL(p));
+  photos = Array.from(event.target.files).map(file =>
+    URL.createObjectURL(file)
+  );
+
+  currentPhoto = 0;
+  displayPhoto();
+}
+
+function displayPhoto() {
+  if(!photos.length) return;
+
+  document.getElementById("memoryImage").src =
+    photos[currentPhoto];
+
+  document.getElementById("photoCounter").textContent =
+    `Memory ${currentPhoto+1} of ${photos.length} 💗`;
+}
+
+function nextPhoto() {
+  if(!photos.length) return;
+  currentPhoto = (currentPhoto+1)%photos.length;
+  displayPhoto();
+}
+
+function previousPhoto() {
+  if(!photos.length) return;
+  currentPhoto = (currentPhoto-1+photos.length)%photos.length;
+  displayPhoto();
+}
+
+// FAVOURITE MOMENTS TXT DOWNLOAD
+function downloadMoments() {
+  const moments = `MY FAVOURITE MOMENTS WITH YOU ❤️
+
+1. The first time we started talking.
+2. Every time you made me smile.
+3. Every little conversation with you.
+4. All the moments that made me realise how special you are.
+
+There are so many more moments I want to create with you.
+
+I love you, baby. ❤️
+
+`;
+
+  const file = new Blob([moments], {
+    type:"text/plain"
+  });
+
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(file);
+  link.download = "my-favourite-moments.txt";
+  link.click();
+
+  URL.revokeObjectURL(link.href);
 }
 
 </script>
-
 </body>
 </html>
