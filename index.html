@@ -15,12 +15,10 @@
 
 body {
     font-family: 'Trebuchet MS', sans-serif;
-    min-height: 100vh;
     overflow: hidden;
-    background: linear-gradient(135deg, #ffd6e7, #ffb6d5, #ffe6f0);
 }
 
-/* SCENE SYSTEM */
+/* SCENES */
 
 .scene {
     position: fixed;
@@ -30,12 +28,14 @@ body {
     align-items: center;
     text-align: center;
     overflow: hidden;
-    transition: opacity 1.2s ease;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease;
 }
 
-.hidden {
-    opacity: 0;
-    pointer-events: none;
+.scene.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* SCENE 1 */
@@ -49,24 +49,17 @@ body {
     width: 90%;
     max-width: 370px;
     padding: 35px 22px;
-    text-align: center;
-    background: rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.8);
     border: 3px solid white;
     border-radius: 30px;
     box-shadow: 0 12px 35px rgba(255,80,150,0.2);
-    animation: appear 1s ease;
     z-index: 2;
+    animation: appear 1s ease;
 }
 
 @keyframes appear {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 .kitty {
@@ -103,18 +96,16 @@ select {
     color: #d63384;
     font-size: 18px;
     font-weight: bold;
-    outline: none;
 }
 
 .slash {
     font-size: 25px;
-    font-weight: bold;
     color: #d63384;
+    font-weight: bold;
 }
 
 button {
-    width: 100%;
-    padding: 14px;
+    padding: 14px 25px;
     border: none;
     border-radius: 20px;
     background: linear-gradient(90deg, #ff83b5, #ff4f96);
@@ -122,11 +113,6 @@ button {
     font-size: 17px;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(255,70,140,0.3);
-}
-
-button:active {
-    transform: scale(0.95);
 }
 
 #message {
@@ -136,21 +122,17 @@ button:active {
     color: #d63384;
 }
 
-/* FLOATING SCENE 1 HEARTS */
+/* SCENE 1 HEARTS */
 
 .heart {
     position: absolute;
     bottom: -50px;
     animation: float 8s linear infinite;
-    opacity: 0.6;
     pointer-events: none;
 }
 
 @keyframes float {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0;
-    }
+    0% { transform: translateY(0); opacity: 0; }
     20% { opacity: 0.7; }
     100% {
         transform: translateY(-110vh) rotate(360deg);
@@ -162,14 +144,7 @@ button:active {
 
 #scene2 {
     z-index: 2;
-    background: #ffd1e3;
-    animation: sceneDarken 3s forwards;
-}
-
-@keyframes sceneDarken {
-    to {
-        background: #f5a6c8;
-    }
+    background: #f5a6c8;
 }
 
 #emojiRain {
@@ -191,90 +166,66 @@ button:active {
         transform: translateY(-60px) rotate(0deg);
         opacity: 0;
     }
-    10% {
-        opacity: 1;
-    }
+    10% { opacity: 1; }
     100% {
         transform: translateY(110vh) rotate(360deg);
         opacity: 0.8;
     }
 }
 
+/* MESSAGE ANIMATION */
+
 .content {
-    z-index: 1;
-    padding: 20px;
+    position: relative;
+    z-index: 2;
     width: 100%;
+    padding: 20px;
 }
 
 .messages {
-    position: relative;
-    height: 90px;
+    height: 100px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
 .animated-text {
     position: absolute;
     width: 100%;
+    padding: 0 10px;
+    color: #ffe1ef;
     font-size: 27px;
     font-weight: bold;
-    color: #ffe1ef;
+    text-shadow: 0 0 12px white, 0 0 22px #ffb6d5;
     opacity: 0;
     transform: translateY(20px) scale(0.8);
-    text-shadow: 0 0 12px #fff, 0 0 22px #ffb6d5;
-    animation: showText 3s ease forwards;
+    transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.animated-text:nth-child(1) {
-    animation-delay: 0.5s;
+.animated-text.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
-.animated-text:nth-child(2) {
-    animation-delay: 3.5s;
-}
-
-.animated-text:nth-child(3) {
-    animation-delay: 6.5s;
-}
-
-@keyframes showText {
-    0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.8);
-    }
-    20% {
-        opacity: 1;
-        transform: translateY(0) scale(1.08);
-    }
-    30%, 75% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-20px) scale(0.9);
-    }
+.animated-text.hide {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.9);
 }
 
 .continue-button {
     margin-top: 40px;
-    width: auto;
-    padding: 15px 35px;
+    background: #f78fba;
     border: 2px solid white;
     border-radius: 30px;
-    background: #f78fba;
-    color: white;
-    font-size: 17px;
-    box-shadow: 0 0 20px #fff;
+    box-shadow: 0 0 20px white;
     opacity: 0;
-    animation: buttonShow 1s 9.5s forwards;
+    transition: opacity 1s ease;
+    pointer-events: none;
 }
 
-@keyframes buttonShow {
-    to {
-        opacity: 1;
-    }
+.continue-button.show {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 /* SCENE 3 */
@@ -296,15 +247,14 @@ button:active {
         text-shadow: 0 0 25px white, 0 0 45px #ffb6d5;
     }
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- SCENE 1: DATE SELECTOR -->
+<!-- SCENE 1 -->
 
-<div class="scene" id="scene1">
+<div class="scene active" id="scene1">
 
     <div id="hearts"></div>
 
@@ -346,13 +296,12 @@ button:active {
         </div>
 
     </div>
-
 </div>
 
 
-<!-- SCENE 2: LOVE EMOJI RAIN -->
+<!-- SCENE 2 -->
 
-<div class="scene hidden" id="scene2">
+<div class="scene" id="scene2">
 
     <div id="emojiRain"></div>
 
@@ -360,82 +309,68 @@ button:active {
 
         <div class="messages">
 
-            <div class="animated-text">
+            <div class="animated-text" id="text1">
                 heyyy babyyy 💗
             </div>
 
-            <div class="animated-text">
+            <div class="animated-text" id="text2">
                 i hope u will love thiss 🥺
             </div>
 
-            <div class="animated-text">
+            <div class="animated-text" id="text3">
                 i love uuu soo much 💞
             </div>
 
         </div>
 
-        <button class="continue-button" onclick="goToScene3()">
+        <button class="continue-button" id="continueBtn"
+            onclick="goToScene3()">
             Continue, my love 💗 →
         </button>
 
     </div>
-
 </div>
 
 
-<!-- SCENE 3: HELLO WORLD -->
+<!-- SCENE 3 -->
 
-<div class="scene hidden" id="scene3">
-
+<div class="scene" id="scene3">
     <h1 id="hello">hello world ♡</h1>
-
 </div>
 
 
 <script>
 
-// POPULATE DAYS
+// POPULATE DATE SELECTORS
 
 const day = document.getElementById("day");
 
 for(let i = 1; i <= 31; i++) {
-
     let option = document.createElement("option");
-
     option.value = i;
-
     option.textContent = String(i).padStart(2, "0");
-
     day.appendChild(option);
-
 }
-
-
-// POPULATE MONTHS
 
 const month = document.getElementById("month");
 
 for(let i = 1; i <= 12; i++) {
-
     let option = document.createElement("option");
-
     option.value = i;
-
     option.textContent = String(i).padStart(2, "0");
-
     month.appendChild(option);
-
 }
 
 
 // SCENE NAVIGATION
 
-function showScene(from, to) {
+function showScene(id) {
 
-    document.getElementById(from).classList.add("hidden");
+    document.querySelectorAll(".scene").forEach(scene => {
+        scene.classList.remove("active");
+    });
 
-    document.getElementById(to).classList.remove("hidden");
-
+    document.getElementById(id).classList.add("active");
 }
 
 
@@ -444,7 +379,6 @@ function showScene(from, to) {
 function checkDate() {
 
     let d = Number(day.value);
-
     let m = Number(month.value);
 
     const message = document.getElementById("message");
@@ -454,11 +388,9 @@ function checkDate() {
         message.innerHTML = "YAYYYY!! YOU REMEMBERED!! 💗";
 
         setTimeout(() => {
-
-            showScene("scene1", "scene2");
-
+            showScene("scene2");
             startEmojiRain();
-
+            startMessages();
         }, 1200);
 
     } else {
@@ -466,7 +398,6 @@ function checkDate() {
         message.innerHTML = "Wrong date babyyy! Try again 🥺💔";
 
     }
-
 }
 
 
@@ -474,37 +405,24 @@ function checkDate() {
 
 const heartContainer = document.getElementById("hearts");
 
-const symbols = [
-    "💗", "💕", "💖", "🎀",
-    "🌸", "💘", "🫀", "💋"
-];
+const symbols = ["💗", "💕", "💖", "🎀", "🌸", "💘", "💋"];
 
 for(let i = 0; i < 25; i++) {
 
     let heart = document.createElement("div");
 
     heart.className = "heart";
-
-    heart.textContent =
-        symbols[Math.floor(Math.random() * symbols.length)];
-
+    heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
     heart.style.left = Math.random() * 100 + "vw";
-
-    heart.style.fontSize =
-        (15 + Math.random() * 25) + "px";
-
-    heart.style.animationDuration =
-        (5 + Math.random() * 8) + "s";
-
-    heart.style.animationDelay =
-        Math.random() * 8 + "s";
+    heart.style.fontSize = (15 + Math.random() * 25) + "px";
+    heart.style.animationDuration = (5 + Math.random() * 8) + "s";
+    heart.style.animationDelay = Math.random() * 8 + "s";
 
     heartContainer.appendChild(heart);
-
 }
 
 
-// SCENE 2 FALLING LOVE EMOJIS
+// SCENE 2 FALLING EMOJIS
 
 const rain = document.getElementById("emojiRain");
 
@@ -514,29 +432,21 @@ const emojis = [
     "💝", "🥰", "🌸", "💟"
 ];
 
-let rainInterval = null;
+let rainInterval;
 
 function createLove() {
 
     const love = document.createElement("div");
 
     love.className = "love";
-
-    love.innerText =
-        emojis[Math.floor(Math.random() * emojis.length)];
-
+    love.innerText = emojis[Math.floor(Math.random() * emojis.length)];
     love.style.left = Math.random() * 100 + "vw";
-
-    love.style.fontSize =
-        (15 + Math.random() * 25) + "px";
-
-    love.style.animationDuration =
-        (4 + Math.random() * 6) + "s";
+    love.style.fontSize = (15 + Math.random() * 25) + "px";
+    love.style.animationDuration = (4 + Math.random() * 6) + "s";
 
     rain.appendChild(love);
 
     setTimeout(() => love.remove(), 11000);
-
 }
 
 function startEmojiRain() {
@@ -544,18 +454,56 @@ function startEmojiRain() {
     if(rainInterval) return;
 
     createLove();
-
     rainInterval = setInterval(createLove, 250);
-
 }
 
 
-// GO TO SCENE 3
+// SEQUENTIAL MESSAGE SYSTEM
+
+const messages = [
+    document.getElementById("text1"),
+    document.getElementById("text2"),
+    document.getElementById("text3")
+];
+
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function startMessages() {
+
+    const button = document.getElementById("continueBtn");
+
+    button.classList.remove("show");
+
+    for(let i = 0; i < messages.length; i++) {
+
+        const current = messages[i];
+
+        // Show current message
+        current.classList.remove("hide");
+        current.classList.add("show");
+
+        // Keep it visible
+        await wait(2200);
+
+        // Make it disappear
+        current.classList.remove("show");
+        current.classList.add("hide");
+
+        // Wait for disappearance before next
+        await wait(800);
+    }
+
+    // Show continue button after all messages
+    button.classList.add("show");
+}
+
+
+// SCENE 3
 
 function goToScene3() {
-
-    showScene("scene2", "scene3");
-
+    showScene("scene3");
 }
 
 </script>
