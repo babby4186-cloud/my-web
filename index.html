@@ -142,7 +142,9 @@ select {
         transform: translateY(0);
         opacity: 0;
     }
-    20% { opacity: 0.7; }
+    20% {
+        opacity: 0.7;
+    }
     100% {
         transform: translateY(-110vh) rotate(360deg);
         opacity: 0;
@@ -175,7 +177,9 @@ select {
         transform: translateY(-60px) rotate(0deg);
         opacity: 0;
     }
-    10% { opacity: 1; }
+    10% {
+        opacity: 1;
+    }
     100% {
         transform: translateY(110vh) rotate(360deg);
         opacity: 0.8;
@@ -312,7 +316,9 @@ select {
         transform: translateY(0) rotate(0deg);
         opacity: 0;
     }
-    20% { opacity: 0.8; }
+    20% {
+        opacity: 0.8;
+    }
     100% {
         transform: translateY(-110vh) rotate(360deg);
         opacity: 0;
@@ -399,19 +405,13 @@ select {
     background: #ff6fa8;
 }
 
-/* PHOTO GALLERY */
+/* VIDEO */
 
-.photo-gallery {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-.photo-gallery img {
+#surpriseVideo {
     width: 100%;
-    height: 125px;
-    object-fit: cover;
-    border-radius: 15px;
+    max-height: 55vh;
+    border-radius: 16px;
+    background: #000;
     border: 3px solid white;
 }
 
@@ -423,19 +423,29 @@ select {
 }
 
 @keyframes heartBeat {
-    0%, 100% { transform: scale(1); }
-    20% { transform: scale(1.15); }
-    40% { transform: scale(1); }
-    60% { transform: scale(1.12); }
+    0%, 100% {
+        transform: scale(1);
+    }
+    20% {
+        transform: scale(1.15);
+    }
+    40% {
+        transform: scale(1);
+    }
+    60% {
+        transform: scale(1.12);
+    }
 }
 
 @media(max-width: 350px) {
     .memory-card {
         padding: 17px 5px;
     }
+
     .memory-icon {
         font-size: 34px;
     }
+
     .scene3-title {
         font-size: 24px;
     }
@@ -556,14 +566,18 @@ select {
 
         <div class="memory-menu">
 
+            <!-- SURPRISE VIDEO CARD -->
+
             <div class="memory-card"
                  onclick="openMemory('photos')">
 
-                <span class="memory-icon">🖼️</span>
-                <h3>Our Pictures</h3>
-                <p>Little memories of us ♡</p>
+                <span class="memory-icon">🎁</span>
+                <h3>My Surprise</h3>
+                <p>A little surprise for you ♡</p>
 
             </div>
+
+            <!-- LOVE LETTER CARD -->
 
             <div class="memory-card"
                  onclick="openMemory('letter')">
@@ -574,14 +588,18 @@ select {
 
             </div>
 
+            <!-- PROMISE CARD -->
+
             <div class="memory-card"
                  onclick="openMemory('game')">
 
-                <span class="memory-icon">💘</span>
+                <span class="memory-icon">💍</span>
                 <h3>My Promise</h3>
-                <p>Let's Be Together Always</p>
+                <p>A promise from my heart ♡</p>
 
             </div>
+
+            <!-- FAVOURITE MOMENTS CARD -->
 
             <div class="memory-card"
                  onclick="openMemory('favourites')">
@@ -602,22 +620,26 @@ select {
 </div>
 
 
-<!-- PHOTOS POPUP -->
+<!-- SURPRISE VIDEO POPUP -->
 
 <div class="memory-modal" id="photos">
 
     <div class="modal-content">
 
-        <h2>Our Little Gallery 📸</h2>
+        <h2>Your Little Surprise 🎁💗</h2>
 
-        <div class="photo-gallery">
+        <p>Something special, just for youuu 🥺</p>
 
-            <img src="photo1.jpg" alt="Our memory 1">
-            <img src="photo2.jpg" alt="Our memory 2">
-            <img src="photo3.jpg" alt="Our memory 3">
-            <img src="photo4.jpg" alt="Our memory 4">
+        <video id="surpriseVideo"
+               controls
+               playsinline
+               preload="metadata">
 
-        </div>
+            <source src="vid.mp4" type="video/mp4">
+
+            Your browser does not support this video.
+
+        </video>
 
         <button class="close-modal"
                 onclick="closeMemory('photos')">
@@ -670,23 +692,51 @@ select {
 </div>
 
 
-<!-- GAME POPUP -->
+<!-- PROMISE LETTER POPUP -->
 
 <div class="memory-modal" id="game">
 
     <div class="modal-content">
 
-        <h2>Our Little Adventure 🎮</h2>
+        <h2>My Promise to You 💍💗</h2>
 
-        <p>Ready for an adventure, babyyy?</p>
+        <p style="line-height:1.9;color:#bd477c;text-align:left;">
 
-        <button onclick="window.location.href='game/index.html'">
-            PLAY OUR GAME 💗
-        </button>
+            Heyyy my loveee,
+
+            <br><br>
+
+            I promise to keep choosing you, even on the days
+            when things aren't easy. I promise to listen to you,
+            respect you, support your dreams, and make you feel
+            loved and appreciated.
+
+            <br><br>
+
+            I promise to be honest with you, to communicate,
+            to laugh with you, and to make more beautiful
+            memories together. I may not be perfect, but I
+            promise to keep learning and trying my best for us.
+
+            <br><br>
+
+            No matter how ordinary a day may seem, I'll always
+            try to make it a little more special for you.
+
+            <br><br>
+
+            You're precious to me, babyyy. This is my promise
+            from the bottom of my heart. 💗
+
+            <br><br>
+
+            Forever yours ♡
+
+        </p>
 
         <button class="close-modal"
                 onclick="closeMemory('game')">
-            Go Back
+            Close 💗
         </button>
 
     </div>
@@ -743,18 +793,26 @@ select {
 const day = document.getElementById("day");
 
 for(let i = 1; i <= 31; i++) {
+
     let option = document.createElement("option");
+
     option.value = i;
+
     option.textContent = String(i).padStart(2, "0");
+
     day.appendChild(option);
 }
 
 const month = document.getElementById("month");
 
 for(let i = 1; i <= 12; i++) {
+
     let option = document.createElement("option");
+
     option.value = i;
+
     option.textContent = String(i).padStart(2, "0");
+
     month.appendChild(option);
 }
 
@@ -793,11 +851,13 @@ async function checkDate() {
             song.volume = 0.7;
 
             try {
+
                 await song.play();
+
             } catch(error) {
+
                 console.log("Music playback failed:", error);
-                message.innerHTML =
-                    "Tap to play the music, my love 💗";
+
             }
 
             startEmojiRain();
@@ -899,7 +959,9 @@ const messages = [
 ];
 
 function wait(ms) {
+
     return new Promise(resolve => setTimeout(resolve, ms));
+
 }
 
 async function startMessages() {
@@ -921,6 +983,7 @@ async function startMessages() {
         current.classList.add("hide");
 
         await wait(800);
+
     }
 
     button.classList.add("show");
@@ -936,17 +999,48 @@ function goToScene3() {
 }
 
 
-/* SCENE 3 POPUPS */
+/* OPEN POPUPS */
 
 function openMemory(id) {
 
     document.getElementById(id).classList.add("show");
 
+    // Play surprise video when My Surprise is tapped.
+
+    if(id === "photos") {
+
+        const video = document.getElementById("surpriseVideo");
+
+        video.currentTime = 0;
+
+        video.play().catch(error => {
+
+            console.log("Video playback needs a tap:", error);
+
+        });
+
+    }
+
 }
+
+
+/* CLOSE POPUPS */
 
 function closeMemory(id) {
 
     document.getElementById(id).classList.remove("show");
+
+    // Stop video when popup closes.
+
+    if(id === "photos") {
+
+        const video = document.getElementById("surpriseVideo");
+
+        video.pause();
+
+        video.currentTime = 0;
+
+    }
 
 }
 
@@ -981,6 +1075,7 @@ function createKissHeart() {
     kissBackground.appendChild(heart);
 
     setTimeout(() => heart.remove(), 11000);
+
 }
 
 setInterval(createKissHeart, 450);
@@ -993,7 +1088,20 @@ document.querySelectorAll(".memory-modal").forEach(modal => {
     modal.addEventListener("click", function(event) {
 
         if(event.target === modal) {
+
             modal.classList.remove("show");
+
+            if(modal.id === "photos") {
+
+                const video =
+                    document.getElementById("surpriseVideo");
+
+                video.pause();
+
+                video.currentTime = 0;
+
+            }
+
         }
 
     });
