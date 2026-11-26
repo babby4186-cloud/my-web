@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,9 +141,7 @@ select {
         transform: translateY(0);
         opacity: 0;
     }
-    20% {
-        opacity: 0.7;
-    }
+    20% { opacity: 0.7; }
     100% {
         transform: translateY(-110vh) rotate(360deg);
         opacity: 0;
@@ -177,9 +174,7 @@ select {
         transform: translateY(-60px) rotate(0deg);
         opacity: 0;
     }
-    10% {
-        opacity: 1;
-    }
+    10% { opacity: 1; }
     100% {
         transform: translateY(110vh) rotate(360deg);
         opacity: 0.8;
@@ -316,9 +311,7 @@ select {
         transform: translateY(0) rotate(0deg);
         opacity: 0;
     }
-    20% {
-        opacity: 0.8;
-    }
+    20% { opacity: 0.8; }
     100% {
         transform: translateY(-110vh) rotate(360deg);
         opacity: 0;
@@ -405,13 +398,19 @@ select {
     background: #ff6fa8;
 }
 
-/* VIDEO */
+/* PHOTO GALLERY */
 
-#surpriseVideo {
+.photo-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.photo-gallery img {
     width: 100%;
-    max-height: 55vh;
-    border-radius: 16px;
-    background: #000;
+    height: 125px;
+    object-fit: cover;
+    border-radius: 15px;
     border: 3px solid white;
 }
 
@@ -423,29 +422,19 @@ select {
 }
 
 @keyframes heartBeat {
-    0%, 100% {
-        transform: scale(1);
-    }
-    20% {
-        transform: scale(1.15);
-    }
-    40% {
-        transform: scale(1);
-    }
-    60% {
-        transform: scale(1.12);
-    }
+    0%, 100% { transform: scale(1); }
+    20% { transform: scale(1.15); }
+    40% { transform: scale(1); }
+    60% { transform: scale(1.12); }
 }
 
 @media(max-width: 350px) {
     .memory-card {
         padding: 17px 5px;
     }
-
     .memory-icon {
         font-size: 34px;
     }
-
     .scene3-title {
         font-size: 24px;
     }
@@ -566,18 +555,14 @@ select {
 
         <div class="memory-menu">
 
-            <!-- SURPRISE VIDEO CARD -->
-
             <div class="memory-card"
                  onclick="openMemory('photos')">
 
-                <span class="memory-icon">🎁</span>
-                <h3>My Surprise</h3>
+                <span class="memory-icon">🖼️</span>
+                <h3>My Surprise 🎁</h3>
                 <p>A little surprise for you ♡</p>
 
             </div>
-
-            <!-- LOVE LETTER CARD -->
 
             <div class="memory-card"
                  onclick="openMemory('letter')">
@@ -588,18 +573,14 @@ select {
 
             </div>
 
-            <!-- PROMISE CARD -->
-
             <div class="memory-card"
                  onclick="openMemory('game')">
 
-                <span class="memory-icon">💍</span>
+                <span class="memory-icon">💘</span>
                 <h3>My Promise</h3>
                 <p>A promise from my heart ♡</p>
 
             </div>
-
-            <!-- FAVOURITE MOMENTS CARD -->
 
             <div class="memory-card"
                  onclick="openMemory('favourites')">
@@ -621,31 +602,20 @@ select {
 
 
 <!-- SURPRISE VIDEO POPUP -->
-
 <div class="memory-modal" id="photos">
-
     <div class="modal-content">
-
         <h2>Your Little Surprise 🎁💗</h2>
-
         <p>Something special, just for youuu 🥺</p>
 
-        <video id="surpriseVideo"
-               controls
-               playsinline
-               preload="metadata">
-
-            <source src="Vid.MP4" type="video/mp4">
-
+        <video id="surpriseVideo" controls playsinline webkit-playsinline preload="auto"
+               style="width:100%;max-height:55vh;border-radius:16px;background:#000;border:3px solid white;">
+            <source src="./Vid.MP4" type="video/mp4">
             Your browser does not support this video.
-
         </video>
 
-        <button class="close-modal"
-                onclick="closeMemory('photos')">
+        <button class="close-modal" onclick="closeMemory('photos')">
             Close 💗
         </button>
-
     </div>
 </div>
 
@@ -693,15 +663,11 @@ select {
 
 
 <!-- PROMISE LETTER POPUP -->
-
 <div class="memory-modal" id="game">
-
     <div class="modal-content">
-
         <h2>My Promise to You 💍💗</h2>
 
         <p style="line-height:1.9;color:#bd477c;text-align:left;">
-
             Heyyy my loveee,
 
             <br><br>
@@ -731,14 +697,11 @@ select {
             <br><br>
 
             Forever yours ♡
-
         </p>
 
-        <button class="close-modal"
-                onclick="closeMemory('game')">
+        <button class="close-modal" onclick="closeMemory('game')">
             Close 💗
         </button>
-
     </div>
 </div>
 
@@ -793,26 +756,18 @@ select {
 const day = document.getElementById("day");
 
 for(let i = 1; i <= 31; i++) {
-
     let option = document.createElement("option");
-
     option.value = i;
-
     option.textContent = String(i).padStart(2, "0");
-
     day.appendChild(option);
 }
 
 const month = document.getElementById("month");
 
 for(let i = 1; i <= 12; i++) {
-
     let option = document.createElement("option");
-
     option.value = i;
-
     option.textContent = String(i).padStart(2, "0");
-
     month.appendChild(option);
 }
 
@@ -851,13 +806,11 @@ async function checkDate() {
             song.volume = 0.7;
 
             try {
-
                 await song.play();
-
             } catch(error) {
-
                 console.log("Music playback failed:", error);
-
+                message.innerHTML =
+                    "Tap to play the music, my love 💗";
             }
 
             startEmojiRain();
@@ -959,9 +912,7 @@ const messages = [
 ];
 
 function wait(ms) {
-
     return new Promise(resolve => setTimeout(resolve, ms));
-
 }
 
 async function startMessages() {
@@ -983,7 +934,6 @@ async function startMessages() {
         current.classList.add("hide");
 
         await wait(800);
-
     }
 
     button.classList.add("show");
@@ -999,50 +949,70 @@ function goToScene3() {
 }
 
 
-/* OPEN POPUPS */
+/* SCENE 3 POPUPS */
 
 function openMemory(id) {
-
     document.getElementById(id).classList.add("show");
 
-    // Play surprise video when My Surprise is tapped.
-
-    if(id === "photos") {
-
+    if (id === "photos") {
         const video = document.getElementById("surpriseVideo");
+        const song = document.getElementById("loveSong");
 
-        video.currentTime = 0;
-
-        video.play().catch(error => {
-
-            console.log("Video playback needs a tap:", error);
-
-        });
-
-    }
-
-}
-
-
-/* CLOSE POPUPS */
-
-function closeMemory(id) {
-
-    document.getElementById(id).classList.remove("show");
-
-    // Stop video when popup closes.
-
-    if(id === "photos") {
-
-        const video = document.getElementById("surpriseVideo");
+        // Pause the background song while the surprise video is playing.
+        song.pause();
 
         video.pause();
+        video.currentTime = 0;
+        video.load();
 
+        // Request fullscreen directly from the user's tap.
+        // iPhone Safari uses webkitEnterFullscreen().
+        try {
+            if (typeof video.webkitEnterFullscreen === "function") {
+                video.webkitEnterFullscreen();
+            } else if (typeof video.requestFullscreen === "function") {
+                const fullscreenResult = video.requestFullscreen();
+                if (fullscreenResult && fullscreenResult.catch) {
+                    fullscreenResult.catch(error =>
+                        console.log("Fullscreen unavailable:", error)
+                    );
+                }
+            }
+        } catch (error) {
+            console.log("Fullscreen unavailable:", error);
+        }
+
+        video.play().catch(error => {
+            console.log("Video playback failed:", error);
+        });
+    }
+}
+
+function resumeBackgroundMusic() {
+    const song = document.getElementById("loveSong");
+    song.play().catch(error => {
+        console.log("Tap to resume background music:", error);
+    });
+}
+
+function closeMemory(id) {
+    document.getElementById(id).classList.remove("show");
+
+    if (id === "photos") {
+        const video = document.getElementById("surpriseVideo");
+        video.pause();
         video.currentTime = 0;
 
+        // If the viewer closes the video before it ends, resume the song.
+        resumeBackgroundMusic();
     }
-
 }
+
+// Resume the background song automatically when the video finishes.
+document.getElementById("surpriseVideo").addEventListener("ended", () => {
+    document.getElementById("photos").classList.remove("show");
+    resumeBackgroundMusic();
+});
 
 
 /* SCENE 3 FLOATING KISSES */
@@ -1075,7 +1045,6 @@ function createKissHeart() {
     kissBackground.appendChild(heart);
 
     setTimeout(() => heart.remove(), 11000);
-
 }
 
 setInterval(createKissHeart, 450);
@@ -1088,20 +1057,13 @@ document.querySelectorAll(".memory-modal").forEach(modal => {
     modal.addEventListener("click", function(event) {
 
         if(event.target === modal) {
-
             modal.classList.remove("show");
-
-            if(modal.id === "photos") {
-
-                const video =
-                    document.getElementById("surpriseVideo");
-
+            if (modal.id === "photos") {
+                const video = document.getElementById("surpriseVideo");
                 video.pause();
-
                 video.currentTime = 0;
-
+                resumeBackgroundMusic();
             }
-
         }
 
     });
